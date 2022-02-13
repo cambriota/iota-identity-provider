@@ -35,7 +35,7 @@ _--architecture--_
 - "sidecar": simple Node.js REST wrapper around `identity.rs` (used for DID resolving, connection to Tangle)
   - _Note: can be removed if credential verification can be performed in Java_
 - SSI wallet: [https://github.com/cambriota/identity-cli-wallet]()
-- Demo Client app: [https://auth.cambriota.dev/demo/]()
+- Demo Client app: <a href="https://auth.cambriota.dev/demo/" target="_blank">https://auth.cambriota.dev/demo/</a>
 
 [Read more about the different components here.](./docs/COMPONENTS.md)
 
@@ -46,7 +46,7 @@ Offer "Login with IOTA" on your website!
 > CAUTION: This application has not been audited, it should ONLY be used in non-production environments!
 
 You can run your own Keycloak instance with your own config.
-You can also register your existing application with the deployed Identity Provider at [https://auth.cambriota.dev]()
+You can also register your existing application with the deployed Identity Provider at <a href="https://auth.cambriota.dev" target="_blank">https://auth.cambriota.dev</a>
 _(still in development)_.
 
 ## Usage
@@ -55,13 +55,11 @@ You also need to be able to create and sign Verifiable Credentials and Presentat
 
 You can use [this CLI wallet](https://github.com/cambriota/identity-cli-wallet) to create your DID and Credentials.
 
-Navigate to [https://auth.cambriota.dev/demo/]() to try it out!
+Navigate to <a href="https://auth.cambriota.dev/demo/" target="_blank">https://auth.cambriota.dev/demo/</a> to try it out!
 
 ## Development & Contribution
 
 ### Run
-
-You can find a running instance at [https://auth.cambriota.dev/demo/]()
 
 [Read about running your own instance.]() _--link--_
 
