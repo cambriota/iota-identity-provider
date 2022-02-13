@@ -1,0 +1,25 @@
+@startuml
+
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam participant {
+'BackgroundColor SeaShell
+'BorderColor black
+ArrowColor green
+}
+
+participant client as "Webshop" order 20
+participant idp as "Identity Provider" order 30
+participant user as "User" order 10
+participant tangle as "IOTA Tangle" order 40
+
+user -> client: Log me in
+client -> idp: Authentication Request
+idp -> user: present challenge
+user -> idp: create VP, sign it (challenge included)
+idp -> tangle: verify VP, resolve DID (via sidecar)
+idp -> idp: map claims, persist (as long as allowed)
+idp -> client: issue standard access_token & id_token (jwt)
+client -> client: user successfully logged in
+client -> user: Show user info
+@enduml

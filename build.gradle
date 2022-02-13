@@ -1,0 +1,98 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'java-library'
+    id 'java'
+    id "io.freefair.lombok" version "6.4.0"
+    id "net.nemerosa.versioning" version "2.15.0"
+    id "com.github.spotbugs" version "5.0.4"
+    id "org.owasp.dependencycheck" version "6.5.3"
+    id 'jacoco'
+}
+
+group 'dev.cambriota'
+version '0.1.0'
+sourceCompatibility = '11'
+
+configurations {
+    bundleLib
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    keycloakVersion = project.properties['keycloakVersion']
+    junitVersion = project.properties['junitVersion']
+}
+
+dependencies {
+    implementation group: 'org.keycloak', name: 'keycloak-core', version: keycloakVersion
+    implementation group: 'org.keycloak', name: 'keycloak-server-spi', version: keycloakVersion
+    implementation group: 'org.keycloak', name: 'keycloak-server-spi-private', version: keycloakVersion
+    implementation group: 'org.keycloak', name: 'keycloak-services', version: keycloakVersion
+
+    bundleLib 'com.google.zxing:core:3.4.1'
+    bundleLib 'com.google.zxing:javase:3.4.1'
+
+    // TODO: switch to "provided" scope?
+    implementation 'org.jboss.logging:jboss-logging:3.4.3.Final'
+    // configurations.compile.extendsFrom(configurations.bundleLib)
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
+
+    testImplementation 'org.mockito:mockito-core:4.3.1'
+    testImplementation 'org.mockito:mockito-inline:4.3.1'
+    testImplementation 'com.github.tomakehurst:wiremock:2.27.2'
+    testImplementation 'org.assertj:assertj-core:3.22.0'
+    testImplementation 'io.rest-assured:rest-assured:4.5.0'
+}
+
+/* https://youtrack.jetbrains.com/issue/KT-46165 */
+tasks.withType(Jar) {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+spotbugs {
+    ignoreFailures = true
+    spotbugsMain {
+        reports {
+            html {
+                required = true
+                outputLocation = file("$buildDir/reports/spotbugs/main/spotbugs.html")
+            }
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    finalizedBy jacocoTestReport
+}
+
+jar {
+    from {
+        configurations.bundleLib.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    manifest {
+        attributes(
+            //'Build-Revision' : "${versioning.info.commit}",
+            'Build-Timestamp': new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+            'Build-Revision' : versioning.info.commit, // commit hash
+            'Build-Tool': "Gradle ${gradle.gradleVersion}",
+            'Build-JDK': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+            'Version': "${gradle.rootProject.version}",
+        )
+    }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+}

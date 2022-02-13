@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  keycloak:
+    container_name: keycloak
+    build:
+      context: .
+      dockerfile: src/Dockerfile
+    ports:
+      - '8080:8080'
+  sidecar:
+    container_name: sidecar
+    build: ./sidecar
+    # restart: always
+    ports:
+      - '7000:7000'

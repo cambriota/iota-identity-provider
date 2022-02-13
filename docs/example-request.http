@@ -1,0 +1,47 @@
+POST http://localhost:8181/auth/realms/iota/authenticate
+Content-Type: application/json
+
+{
+  "sessionId": "937c6dd7-ad51-44a4-914e-045835395ac6",
+  "meta": {
+    "deleteAfter": "2022-05-12T04:12:39.823Z",
+    "allowOnlyOnce": false
+  },
+  "credential": {
+    "@context": "https://www.w3.org/2018/credentials/v1",
+    "id": "foo:bar:presentationid29381738",
+    "type": [
+      "VerifiablePresentation",
+      "LoginWithIOTAIdentity"
+    ],
+    "verifiableCredential": {
+      "@context": "https://www.w3.org/2018/credentials/v1",
+      "id": "https://example.org/credentials/9ffa87ed-0f18-2843-c729-69a4b027d243",
+      "type": [
+        "VerifiableCredential",
+        "Login"
+      ],
+      "credentialSubject": {
+        "did": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+        "email": "john.doe@example.org",
+        "firstName": "John",
+        "lastName": "Doe",
+        "username": "johndoe"
+      },
+      "issuer": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+      "issuanceDate": "2022-01-13T09:49:14Z",
+      "proof": {
+        "type": "JcsEd25519Signature2020",
+        "verificationMethod": "#authentication",
+        "signatureValue": "2kidu8ep7fUMdCWhfVdW9Sc9iEH8fAWWGfdc2QbrhwmabtssVxdL7manVYmzDKTB1aMhhLCjjmpNixJnhz33NNd3"
+      }
+    },
+    "holder": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+    "proof": {
+      "type": "JcsEd25519Signature2020",
+      "verificationMethod": "#authentication",
+      "challenge": "ffbbef2a-d033-4b33-af69-553733f82911",
+      "signatureValue": "tRqTxDzYjnZNVGyQNJM2Co3HScmA5nupaVAQZZoJh2JDmxmKKYaR7JyWY15ixyhEm99jFuM6nuFbToD9jBUQujg"
+    }
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "presentation": {
+    "@context": "https://www.w3.org/2018/credentials/v1",
+    "type": [
+      "VerifiablePresentation",
+      "LoginWithIOTAIdentity"
+    ],
+    "verifiableCredential": {
+      "@context": "https://www.w3.org/2018/credentials/v1",
+      "id": "https://example.org/credentials/9ffa87ed-0f18-2843-c729-69a4b027d243",
+      "type": [
+        "VerifiableCredential",
+        "Login"
+      ],
+      "credentialSubject": {
+        "did": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+        "email": "john.doe@example.org",
+        "firstName": "John",
+        "lastName": "Doe",
+        "username": "johndoe"
+      },
+      "issuer": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+      "issuanceDate": "2021-11-10T20:50:39Z",
+      "proof": {
+        "type": "JcsEd25519Signature2020",
+        "verificationMethod": "#authentication",
+        "signatureValue": "5EBa6zGM2u1CQ27954cJCFiLZeWZ1WpgAipqp1MiSy6v8opfLDyNeQJANUB6HjcR1xJQMPAxGYKzZ8jaysuUqFpt"
+      }
+    },
+    "holder": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+    "proof": {
+      "type": "JcsEd25519Signature2020",
+      "verificationMethod": "#authentication",
+      "signatureValue": "5Avappi2WJbQEzt9KizNANP9W51odJW7gntYzc1csheH9XRf46r95DqLf3K769S293E93aCmgy4SqZSkqX6zcBcA"
+    }
+  },
+  "holder": {
+    "did": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+    "document": {
+      "id": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+      "verificationMethod": [
+        {
+          "id": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N#authentication",
+          "controller": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+          "type": "Ed25519VerificationKey2018",
+          "publicKeyMultibase": "z3GQSToMzACcfpy6cQqfQZsAypwtuCUeZHLAgVyKEPq9U"
+        }
+      ],
+      "authentication": [
+        "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N#authentication"
+      ],
+      "created": "2021-11-10T14:20:29Z",
+      "updated": "2021-11-10T14:20:29Z",
+      "proof": {
+        "type": "JcsEd25519Signature2020",
+        "verificationMethod": "#authentication",
+        "signatureValue": "5eWfTYV1XNB4Smgbfy9VHMmnfjdZteAZxRCahQ2rQUujpCzPsaGLatfLrMhxQtW9fCm6rDp5fC8MXUWri9yRZyKF"
+      }
+    },
+    "metadata": {},
+    "verified": true
+  },
+  "credentials": [
+    {
+      "credential": {
+        "@context": "https://www.w3.org/2018/credentials/v1",
+        "id": "https://example.org/credentials/9ffa87ed-0f18-2843-c729-69a4b027d243",
+        "type": [
+          "VerifiableCredential",
+          "Login"
+        ],
+        "credentialSubject": {
+          "did": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+          "email": "john.doe@example.org",
+          "firstName": "John",
+          "lastName": "Doe",
+          "username": "johndoe"
+        },
+        "issuer": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+        "issuanceDate": "2021-11-10T20:50:39Z",
+        "proof": {
+          "type": "JcsEd25519Signature2020",
+          "verificationMethod": "#authentication",
+          "signatureValue": "5EBa6zGM2u1CQ27954cJCFiLZeWZ1WpgAipqp1MiSy6v8opfLDyNeQJANUB6HjcR1xJQMPAxGYKzZ8jaysuUqFpt"
+        }
+      },
+      "issuer": {
+        "did": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+        "document": {
+          "id": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+          "verificationMethod": [
+            {
+              "id": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N#authentication",
+              "controller": "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N",
+              "type": "Ed25519VerificationKey2018",
+              "publicKeyMultibase": "z3GQSToMzACcfpy6cQqfQZsAypwtuCUeZHLAgVyKEPq9U"
+            }
+          ],
+          "authentication": [
+            "did:iota:GJo2HnpjhR75Ty25v38fZ3LCTyXU5gux8Prd9KYmus4N#authentication"
+          ],
+          "created": "2021-11-10T14:20:29Z",
+          "updated": "2021-11-10T14:20:29Z",
+          "proof": {
+            "type": "JcsEd25519Signature2020",
+            "verificationMethod": "#authentication",
+            "signatureValue": "5eWfTYV1XNB4Smgbfy9VHMmnfjdZteAZxRCahQ2rQUujpCzPsaGLatfLrMhxQtW9fCm6rDp5fC8MXUWri9yRZyKF"
+          }
+        },
+        "metadata": {},
+        "verified": true
+      },
+      "subjects": {},
+      "verified": true
+    }
+  ],
+  "verified": true
+}

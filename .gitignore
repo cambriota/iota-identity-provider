@@ -1,0 +1,14 @@
+# Editors
+.vscode
+.idea
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+
+.DS_Store
+
+# config file
+src/main/resources/application-prod.properties

@@ -1,0 +1,6 @@
+embed-server --server-config=standalone-ha.xml --std-out=echo
+batch
+/subsystem=keycloak-server/spi=authenticator:add
+/subsystem=keycloak-server/spi=authenticator/provider=iota-did-authenticator:add(enabled=true)
+run-batch
+stop-embedded-server
