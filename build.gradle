@@ -4,10 +4,11 @@ plugins {
     id 'java-library'
     id 'java'
     id "io.freefair.lombok" version "6.4.0"
-    id "net.nemerosa.versioning" version "2.15.0"
+    id "net.nemerosa.versioning" version "2.15.1"
     id "com.github.spotbugs" version "5.0.4"
     id "org.owasp.dependencycheck" version "6.5.3"
     id 'jacoco'
+    id 'org.jetbrains.changelog' version '1.3.1'
 }
 
 group 'dev.cambriota'
@@ -86,9 +87,8 @@ jar {
     }
     manifest {
         attributes(
-            //'Build-Revision' : "${versioning.info.commit}",
             'Build-Timestamp': new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
-            'Build-Revision' : versioning.info.commit, // commit hash
+            'Build-Revision' : versioning.info.commit,
             'Build-Tool': "Gradle ${gradle.gradleVersion}",
             'Build-JDK': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
             'Version': "${gradle.rootProject.version}",
