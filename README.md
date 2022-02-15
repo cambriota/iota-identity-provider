@@ -1,3 +1,7 @@
+[![CI](https://github.com/cambriota/iota-identity-provider/workflows/CI/badge.svg)](https://github.com/cambriota/iota-identity-provider/actions?query=workflow%3ACI)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/cambriota/iota-identity-provider?logo=github&sort=semver)](https://github.com/cambriota/iota-identity-provider/releases/latest)
+[![GitHub license](https://img.shields.io/github/license/cambriota/iota-identity-provider)](https://github.com/cambriota/iota-identity-provider/blob/main/LICENSE)
+
 # IOTA Identity Provider
 
 Bridging IOTA's self-sovereign identities to existing "Web 2.0" OAuth solutions.
@@ -88,7 +92,8 @@ Run `scripts/run-local.sh`, then attach a debugger to `localhost:8787`.
 * [ ] add scheduled task to anonymize/wipe user after given time (anonymize: hash email, overwrite all other fields. on next login: hash email again, if already exists: populate fields again)
 * [ ] replace manual "Continue" button click action with automatic forwarding (detect valid session in Keycloak)
 * [ ] improve styling of Login page
-* [ ] add github actions (security scan, code quality, etc.)
+* [ ] add github actions for security scan, code quality, etc.
+* [ ] add github flows: release.yaml, publish-docker.yaml
 * [ ] add application profile "prod" to build.sh (gradlew, docker)
 * [ ] run Keycloak embedded in Spring Boot application / Quarkus / native image?
 * [ ] remove unnecessary artifacts (such as `src/main/docker`)
