@@ -81,6 +81,12 @@ test {
     finalizedBy jacocoTestReport
 }
 
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+
 jar {
     from {
         configurations.bundleLib.collect { it.isDirectory() ? it : zipTree(it) }

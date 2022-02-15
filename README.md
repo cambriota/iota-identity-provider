@@ -1,5 +1,6 @@
 [![CI](https://github.com/cambriota/iota-identity-provider/workflows/CI/badge.svg)](https://github.com/cambriota/iota-identity-provider/actions?query=workflow%3ACI)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/cambriota/iota-identity-provider?logo=github&sort=semver)](https://github.com/cambriota/iota-identity-provider/releases/latest)
+[![codecov](https://codecov.io/gh/cambriota/iota-identity-provider/branch/develop/graph/badge.svg)](https://codecov.io/gh/cambriota/iota-identity-provider)
 [![GitHub license](https://img.shields.io/github/license/cambriota/iota-identity-provider)](https://github.com/cambriota/iota-identity-provider/blob/main/LICENSE)
 
 # IOTA Identity Provider
