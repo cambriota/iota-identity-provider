@@ -1,5 +1,10 @@
 package dev.cambriota.identityprovider.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.net.HttpHeaders;
 import dev.cambriota.identityprovider.exceptions.SessionNotExistsException;
 import dev.cambriota.identityprovider.model.Subject;
@@ -10,7 +15,6 @@ import org.jboss.logging.Logger;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.services.resource.RealmResourceProvider;
 
-import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
@@ -54,13 +58,26 @@ public class DidRealmResourceProvider implements RealmResourceProvider {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response authenticateWithVerifiablePresentation(AuthenticationRequest request) {
-        log.infof("%s", request.toString());
+    public Response authenticateWithVerifiablePresentation(String json) {
+        log.infof("Received request: body=[%s]", json);
 
-        JsonObject verifiablePresentation = request.credential;
+        AuthenticationRequest request;
 
-        JsonObject proof = verifiablePresentation.getJsonObject("proof");
-        UUID sessionId = UUID.fromString(proof.getString("challenge"));
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        try {
+            request = mapper.readValue(json, AuthenticationRequest.class);
+        } catch (JsonMappingException e) {
+            log.infof("%s", e.getMessage());
+            return Response.status(400).build();
+        } catch (JsonProcessingException e) {
+            log.debugf("%s", e.getMessage());
+            return Response.status(400).build();
+        }
+
+        JsonNode verifiablePresentation = request.verifiablePresentation;
+
+        UUID sessionId = UUID.fromString(verifiablePresentation.get("proof").get("challenge").asText());
 
         SessionManagementService sessionManagement = SessionManagementService.getInstance();
 
@@ -80,10 +97,10 @@ public class DidRealmResourceProvider implements RealmResourceProvider {
             }
 
             if (isVerified) {
-                JsonObject credentialSubject = verifiablePresentation
-                        .getJsonObject("verifiableCredential")
-                        .getJsonObject("credentialSubject");
-                String holder = verifiablePresentation.getString("holder");
+                JsonNode credentialSubject = verifiablePresentation
+                        .get("verifiableCredential")
+                        .get("credentialSubject");
+                String holder = verifiablePresentation.get("holder").asText();
 
                 Subject subject = CredentialSubjectMapper.mapClaims(credentialSubject);
                 subject.setDid(holder);

@@ -1,5 +1,6 @@
 package dev.cambriota.identityprovider.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import dev.cambriota.identityprovider.model.Subject;
 import org.apache.commons.lang.RandomStringUtils;
 
@@ -7,7 +8,7 @@ import javax.json.JsonObject;
 
 public class CredentialSubjectMapper {
 
-    public static Subject mapClaims(JsonObject credentialSubject) {
+    public static Subject mapClaims(JsonNode credentialSubject) {
 
         String email = getProperty(credentialSubject, "email");
         String username = getProperty(credentialSubject, "username");
@@ -24,9 +25,9 @@ public class CredentialSubjectMapper {
         );
     }
 
-    private static String getProperty(JsonObject json, String name) {
+    private static String getProperty(JsonNode json, String name) {
         try {
-            return json.getString(name);
+            return json.get(name).asText();
         } catch (NullPointerException e) {
             return null;
         }

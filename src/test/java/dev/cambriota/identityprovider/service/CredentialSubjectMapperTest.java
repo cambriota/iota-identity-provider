@@ -1,15 +1,12 @@
 package dev.cambriota.identityprovider.service;
 
-import dev.cambriota.identityprovider.TestDataCreators;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import dev.cambriota.identityprovider.model.Subject;
 import org.junit.jupiter.api.Test;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class CredentialSubjectMapperTest {
 
@@ -24,10 +21,9 @@ class CredentialSubjectMapperTest {
                 null
         );
 
-        JsonObject given = Json.createObjectBuilder()
-                .add("firstName", "John")
-                .add("username", "johndoe")
-                .build();
+        JsonNode given = JsonNodeFactory.instance.objectNode();
+        ((ObjectNode) given).put("firstName", "John");
+        ((ObjectNode) given).put("username", "johndoe");
 
         Subject actual = CredentialSubjectMapper.mapClaims(given);
 
@@ -45,11 +41,10 @@ class CredentialSubjectMapperTest {
                 null
         );
 
-        JsonObject given = Json.createObjectBuilder()
-                .add("firstName", "John")
-                .add("lastName", "Doe")
-                .add("myKey", "myValue")
-                .build();
+        JsonNode given = JsonNodeFactory.instance.objectNode();
+        ((ObjectNode) given).put("firstName", "John");
+        ((ObjectNode) given).put("lastName", "Doe");
+        ((ObjectNode) given).put("myKey", "myValue");
 
         Subject actual = CredentialSubjectMapper.mapClaims(given);
 
@@ -58,8 +53,7 @@ class CredentialSubjectMapperTest {
 
     @Test
     void createsRandomAlphanumericUsernameIfNoInformationGiven() {
-        JsonObject given = Json.createObjectBuilder()
-                .build();
+        JsonNode given = JsonNodeFactory.instance.objectNode();
 
         Subject actual = CredentialSubjectMapper.mapClaims(given);
 

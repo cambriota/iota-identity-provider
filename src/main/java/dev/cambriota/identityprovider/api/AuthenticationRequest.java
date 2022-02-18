@@ -1,19 +1,20 @@
 package dev.cambriota.identityprovider.api;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
-import javax.json.JsonObject;
 import java.time.LocalDateTime;
 
 @Data
 public class AuthenticationRequest {
     MetaData meta;
-    JsonObject credential; // VerifiablePresentation
+
+    @JsonProperty("presentation")
+    JsonNode verifiablePresentation;
 
     @Data
-    @AllArgsConstructor
-    public class MetaData {
+    static class MetaData {
         LocalDateTime requestForDeletion; // "2022-03-14T20:21:43.928Z"
         LocalDateTime requestForAnonymization; // "2022-03-14T20:21:43.928Z"
     }

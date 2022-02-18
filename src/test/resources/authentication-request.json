@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "requestForDeletion": "2022-03-14T20:21:43.928Z",
+    "requestForAnonymization": "2022-03-12T20:21:43.928Z"
+  },
+  "presentation": {
+    "@context": "https://www.w3.org/2018/credentials/v1",
+    "type": "VerifiablePresentation",
+    "verifiableCredential": {
+      "@context": "https://www.w3.org/2018/credentials/v1",
+      "type": [
+        "VerifiableCredential",
+        "LoginWithIotaOidc"
+      ],
+      "credentialSubject": {
+        "firstName": "Jane",
+        "lastName": "Doe"
+      },
+      "issuer": "did:iota:kv2fTV5BYBSpAMwvFN3b1z8iqcTk7ZHNa9AMeGY6pP6",
+      "issuanceDate": "2022-02-16T09:43:43Z",
+      "proof": {
+        "type": "JcsEd25519Signature2020",
+        "verificationMethod": "#sign-0",
+        "signatureValue": "Urx8eyMyuczjT9V8u3wpucoM37UbNVExYvgH55tPQ7SbvwCLGmvBkL3qGdAJWpbk1bo1AfTgG9UZYo7Cpu1ECWe"
+      }
+    },
+    "holder": "did:iota:kv2fTV5BYBSpAMwvFN3b1z8iqcTk7ZHNa9AMeGY6pP6",
+    "proof": {
+      "type": "JcsEd25519Signature2020",
+      "verificationMethod": "#sign-0",
+      "signatureValue": "4R8tpgNDnNeU9vapwMaykXhyPHi2sXAB4VNezfbbo2orsv5k2HKYFqo4GLPyyQVbPVDPHUMK7hoSU27HJ3x87z6h",
+      "challenge": "7bc37d45-e8db-413a-b3bf-55a85659f064"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 package dev.cambriota.identityprovider.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -32,8 +33,8 @@ public class PresentationVerificationService {
         this.session = session;
     }
 
-    public boolean verifyPresentation(JsonObject verifiablePresentation) {
-        log.infof("Verifying credential from holder=[%s] ...", verifiablePresentation.getJsonObject("holder"));
+    public boolean verifyPresentation(JsonNode verifiablePresentation) {
+        log.infof("Verifying credential from holder=[%s] ...", verifiablePresentation.get("holder"));
         try {
             HttpClient client = session.getProvider(HttpClientProvider.class).getHttpClient();
 

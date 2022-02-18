@@ -1,5 +1,8 @@
 package dev.cambriota.identityprovider.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import dev.cambriota.identityprovider.KeycloakTestBase;
 import dev.cambriota.identityprovider.TestDataCreators;
 import dev.cambriota.identityprovider.model.Subject;
@@ -35,13 +38,13 @@ class DidRealmResourceProviderTest extends KeycloakTestBase {
 
     @Test
     void credentialSubjectIsMappedCorrectly() throws Exception {
-        AuthenticationRequest request = TestDataCreators.createTestAuthenticationRequest();
-        String sessionId = "fc2cef1d-8e21-4284-a5a7-9ab44ad25c6b";
+        JsonNode requestAsJson = TestDataCreators.getResourceAsJsonNode("authentication-request.json");
+        String sessionId = requestAsJson.get("presentation").get("proof").get("challenge").asText();
 
         sessionManagement.createNewSessionForId(sessionId);
         sessionManagement.attachSubjectToSession(UUID.fromString(sessionId), null);
 
-        Response res = cut.authenticateWithVerifiablePresentation(request);
+        Response res = cut.authenticateWithVerifiablePresentation(requestAsJson.toString());
 
         Subject expected = new Subject(
                 null,
@@ -49,10 +52,37 @@ class DidRealmResourceProviderTest extends KeycloakTestBase {
                 "Jane",
                 "Doe",
                 "did:iota:kv2fTV5BYBSpAMwvFN3b1z8iqcTk7ZHNa9AMeGY6pP6",
-                LocalDateTime.parse("2022-02-13T17:25:45.326")
+                LocalDateTime.parse("2022-03-14T20:21:43.928")
         );
 
         assertThat(res.getStatus()).isEqualTo(200);
         assertThat(sessionManagement.getSubjectBySessionId(UUID.fromString(sessionId))).isEqualTo(expected);
+    }
+
+    @Test
+    void returns400_WhenRequestCanNotBeParsed() {
+        JsonNode requestAsJson = TestDataCreators.getResourceAsJsonNode("authentication-request.json");
+        String brokenRequest = requestAsJson.toString().replace(":", "§");
+
+        Response res = cut.authenticateWithVerifiablePresentation(brokenRequest);
+
+        assertThat(res.getStatus()).isEqualTo(400);
+        assertThat(res.getEntity()).isNull();
+    }
+
+    @Test
+    void returns400_WhenRequestCanNotBeMappedToObject() {
+        JsonNode requestAsJson = TestDataCreators.getResourceAsJsonNode("authentication-request.json");
+
+        JsonNode invalidMetadata = JsonNodeFactory.instance.objectNode();
+        ((ObjectNode) invalidMetadata).put("unknownKey", "some-value");
+
+        ObjectNode modified = (ObjectNode) requestAsJson;
+        modified.replace("meta", invalidMetadata);
+
+        Response res = cut.authenticateWithVerifiablePresentation(modified.toString());
+
+        assertThat(res.getStatus()).isEqualTo(400);
+        assertThat(res.getEntity()).isNull();
     }
 }
