@@ -84,7 +84,7 @@ public class DidRealmResourceProvider implements RealmResourceProvider {
         try {
             Subject sub = sessionManagement.getSubjectBySessionId(sessionId);
 
-            LocalDateTime requestForDeletion = request.getMeta().getRequestForDeletion();
+            LocalDateTime requestForDeletion = request.getMeta().getRequestDeletionAt();
 
             boolean isVerified;
 

@@ -15,7 +15,7 @@ public class AuthenticationRequest {
 
     @Data
     static class MetaData {
-        LocalDateTime requestForDeletion; // "2022-03-14T20:21:43.928Z"
-        LocalDateTime requestForAnonymization; // "2022-03-14T20:21:43.928Z"
+        LocalDateTime requestDeletionAt; // "2022-03-14T20:21:43.928Z"
+        LocalDateTime requestAnonymizationAt; // "2022-03-14T20:21:43.928Z"
     }
 }
