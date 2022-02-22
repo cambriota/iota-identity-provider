@@ -2,7 +2,6 @@ package dev.cambriota.identityprovider.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NonNull;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
@@ -16,5 +15,5 @@ public class Subject {
     String firstName;
     String lastName;
     String did;
-    LocalDateTime requestRemovalAt;
+    LocalDateTime requestDeletionAt;
 }

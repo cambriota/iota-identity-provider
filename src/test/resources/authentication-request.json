@@ -1,7 +1,6 @@
 {
   "meta": {
-    "requestDeletionAt": "2022-03-14T20:21:43.928Z",
-    "requestAnonymizationAt": "2022-03-12T20:21:43.928Z"
+    "requestDeletionAt": "2022-03-14T20:21:43.928Z"
   },
   "presentation": {
     "@context": "https://www.w3.org/2018/credentials/v1",

@@ -27,7 +27,7 @@ class CredentialSubjectMapperTest {
 
         Subject actual = CredentialSubjectMapper.mapClaims(given);
 
-        assertThat(actual.equals(expected)).isTrue();
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -44,7 +44,7 @@ class CredentialSubjectMapperTest {
         JsonNode given = JsonNodeFactory.instance.objectNode();
         ((ObjectNode) given).put("firstName", "John");
         ((ObjectNode) given).put("lastName", "Doe");
-        ((ObjectNode) given).put("myKey", "myValue");
+        ((ObjectNode) given).put("unknownKey", "someValue");
 
         Subject actual = CredentialSubjectMapper.mapClaims(given);
 
@@ -58,5 +58,25 @@ class CredentialSubjectMapperTest {
         Subject actual = CredentialSubjectMapper.mapClaims(given);
 
         assertThat(actual.getUsername().length()).isEqualTo(16);
+    }
+
+    @Test
+    void usesFirstNameAsUsername_IfNoMoreInformationGiven() {
+        JsonNode given = JsonNodeFactory.instance.objectNode();
+        ((ObjectNode) given).put("firstName", "John");
+
+        Subject actual = CredentialSubjectMapper.mapClaims(given);
+
+        assertThat(actual.getUsername()).isEqualTo("john");
+    }
+
+    @Test
+    void usesLastNameAsUsername_IfNoMoreInformationGiven() {
+        JsonNode given = JsonNodeFactory.instance.objectNode();
+        ((ObjectNode) given).put("lastName", "Doe");
+
+        Subject actual = CredentialSubjectMapper.mapClaims(given);
+
+        assertThat(actual.getUsername()).isEqualTo("doe");
     }
 }

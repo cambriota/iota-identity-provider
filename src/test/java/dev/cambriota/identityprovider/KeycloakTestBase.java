@@ -46,7 +46,7 @@ public abstract class KeycloakTestBase {
 
         when(session.getProvider(ThemeProvider.class, "extending")).thenReturn(themeProvider);
 
-        when (session.getProvider(HttpClientProvider.class)).thenReturn(httpClientProvider);
+        when(session.getProvider(HttpClientProvider.class)).thenReturn(httpClientProvider);
 
         try {
             when(themeProvider.getTheme(anyString(), any(Theme.Type.class))).thenReturn(theme);

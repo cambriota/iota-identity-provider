@@ -127,7 +127,7 @@ public class DidAuthenticator implements Authenticator {
         user.setLastName(sub.getLastName());
         user.setEnabled(true);
         user.setSingleAttribute("did", sub.getDid());
-        user.setSingleAttribute("requestRemovalAt", sub.getRequestRemovalAt().toString());
+        user.setSingleAttribute("requestDeletionAt", sub.getRequestDeletionAt().toString());
         return user;
     }
 

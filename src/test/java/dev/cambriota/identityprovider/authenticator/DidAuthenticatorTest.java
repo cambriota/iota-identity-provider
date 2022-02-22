@@ -125,7 +125,7 @@ class DidAuthenticatorTest {
             verify(user).setLastName(sub.getLastName());
             verify(user).setEnabled(true);
             verify(user).setSingleAttribute("did", sub.getDid());
-            verify(user).setSingleAttribute("requestRemovalAt", sub.getRequestRemovalAt().toString());
+            verify(user).setSingleAttribute("requestDeletionAt", sub.getRequestDeletionAt().toString());
             verify(context).setUser(any(UserModel.class));
             verify(context).success();
         }
@@ -156,7 +156,7 @@ class DidAuthenticatorTest {
             verify(user).setLastName(sub.getLastName());
             verify(user).setEnabled(true);
             verify(user).setSingleAttribute("did", sub.getDid());
-            verify(user).setSingleAttribute("requestRemovalAt", sub.getRequestRemovalAt().toString());
+            verify(user).setSingleAttribute("requestDeletionAt", sub.getRequestDeletionAt().toString());
             verify(context).setUser(any(UserModel.class));
             verify(context).success();
         }

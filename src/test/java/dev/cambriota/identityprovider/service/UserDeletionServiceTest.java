@@ -2,56 +2,74 @@ package dev.cambriota.identityprovider.service;
 
 import dev.cambriota.identityprovider.KeycloakTestBase;
 import dev.cambriota.identityprovider.TestDataCreators;
+import dev.cambriota.identityprovider.tasks.UserDeletionService;
 import org.junit.jupiter.api.Test;
-import org.keycloak.models.UserModel;
+import org.keycloak.cluster.ClusterProvider;
+import org.keycloak.models.*;
+import org.keycloak.timer.TimerProvider;
+import org.keycloak.timer.basic.BasicTimerProvider;
+import org.keycloak.timer.basic.BasicTimerProviderFactory;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Date;
 import java.util.Timer;
-import java.util.TimerTask;
+import java.util.stream.Stream;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 class UserDeletionServiceTest extends KeycloakTestBase {
 
-    UserDeletionService cut = new UserDeletionService(session);
+    UserDeletionService cut = new UserDeletionService();
+
+    protected final KeycloakSessionFactory keycloakSessionFactory = mock(KeycloakSessionFactory.class);
+    protected final ClusterProvider clusterProvider = mock(ClusterProvider.class);
+    protected final RealmProvider realmProvider = mock(RealmProvider.class);
 
     @Test
-    void schedulesAnonymizationForUser() throws Exception {
-        String username = "johndoe";
-        LocalDateTime anonymizeAt = LocalDateTime.now(ZoneOffset.UTC).plusSeconds(1);
+    void schedulesDeletionOfUser() throws Exception {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
 
-        UserModel user = getRandomUser();
-        user.setUsername(username);
-        user.setFirstName("John");
-        user.setSingleAttribute("did", TestDataCreators.createTestDid());
+        System.setProperty("keycloak.scheduled.interval", String.valueOf(1L));
+
+        UserModel userToBeDeleted = getRandomUser();
+        userToBeDeleted.setUsername("bruce.wayne");
+        userToBeDeleted.setSingleAttribute("requestDeletionAt", now.minusMinutes(30).toString());
+        userToBeDeleted.setSingleAttribute("did", TestDataCreators.createTestDid());
+
+        UserModel userNotToBeDeleted = getRandomUser();
+        userNotToBeDeleted.setUsername("tony.stark");
+        userNotToBeDeleted.setSingleAttribute("requestDeletionAt", now.plusHours(3).toString());
 
         when(session.users()).thenReturn(userProvider);
-        when(userProvider.getUserByUsername(eq(realm), anyString())).thenReturn(user);
 
-        cut.scheduleDeletion(username, anonymizeAt);
+        BasicTimerProviderFactory basicTimerProviderFactory = new BasicTimerProviderFactory();
+        when(session.getProvider(TimerProvider.class)).thenReturn(
+                new BasicTimerProvider(session, new Timer(), 5, basicTimerProviderFactory)
+        );
 
-        while(LocalDateTime.now(ZoneOffset.UTC).isBefore(anonymizeAt)) {
-            verify(userProvider, never()).getUserByUsername(any(), anyString());
-            Thread.sleep(500);
-        }
+        Stream<UserModel> userStream = Stream.of(
+                userToBeDeleted,
+                userNotToBeDeleted,
+                getRandomUser()
+        );
 
-        verify(userProvider).getUserByUsername(realm, username);
-    }
+        when(userProvider.getUsersStream(any(), anyBoolean())).thenReturn(userStream);
 
-    @Test
-    public void givenUsingTimer_whenSchedulingTaskOnce_thenCorrect() {
-        TimerTask task = new TimerTask() {
-            public void run() {
-                System.out.println("Task performed on: " + new Date() + "n" +
-                        "Thread's name: " + Thread.currentThread().getName());
-            }
-        };
-        Timer timer = new Timer("Timer");
+        when(session.getKeycloakSessionFactory()).thenReturn(keycloakSessionFactory);
+        when(keycloakSessionFactory.create()).thenReturn(session);
 
-        long delay = 1000L;
-        timer.schedule(task, delay);
+        when(session.getTransactionManager()).thenReturn(mock(KeycloakTransactionManager.class));
+
+        when(session.getProvider(ClusterProvider.class)).thenReturn(clusterProvider);
+
+        when(session.getProvider(RealmProvider.class)).thenReturn(realmProvider);
+        when(realmProvider.getRealmByName(anyString())).thenReturn(realm);
+
+        cut.setupScheduledUserDeletion(keycloakSessionFactory);
+
+        // wait until scheduled task has executed once
+        Thread.sleep(2L * 1000);
+
+        verify(userProvider).removeUser(realm, userToBeDeleted);
     }
 }

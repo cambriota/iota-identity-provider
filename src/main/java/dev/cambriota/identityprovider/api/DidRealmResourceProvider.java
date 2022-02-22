@@ -84,7 +84,7 @@ public class DidRealmResourceProvider implements RealmResourceProvider {
         try {
             Subject sub = sessionManagement.getSubjectBySessionId(sessionId);
 
-            LocalDateTime requestForDeletion = request.getMeta().getRequestDeletionAt();
+            LocalDateTime requestDeletionAt = request.getMeta().getRequestDeletionAt();
 
             boolean isVerified;
 
@@ -104,7 +104,7 @@ public class DidRealmResourceProvider implements RealmResourceProvider {
 
                 Subject subject = CredentialSubjectMapper.mapClaims(credentialSubject);
                 subject.setDid(holder);
-                subject.setRequestRemovalAt(requestForDeletion);
+                subject.setRequestDeletionAt(requestDeletionAt);
 
                 SessionManagementService.getInstance().attachSubjectToSession(sessionId, subject);
                 log.infof("Successfully verified credential for holder=[%s]", holder);

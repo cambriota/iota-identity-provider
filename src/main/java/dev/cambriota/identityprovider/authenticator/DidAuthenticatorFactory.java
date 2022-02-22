@@ -1,5 +1,6 @@
 package dev.cambriota.identityprovider.authenticator;
 
+import dev.cambriota.identityprovider.tasks.UserDeletionService;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.authentication.Authenticator;
@@ -82,6 +83,8 @@ public class DidAuthenticatorFactory implements AuthenticatorFactory, Configurab
 
     @Override
     public void postInit(KeycloakSessionFactory factory) {
+        UserDeletionService userDeletionService = new UserDeletionService();
+        userDeletionService.setupScheduledUserDeletion(factory);
     }
 
     @Override

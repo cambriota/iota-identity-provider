@@ -100,6 +100,7 @@ jar {
             'Build-Tool': "Gradle ${gradle.gradleVersion}",
             'Build-JDK': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
             'Version': "${gradle.rootProject.version}",
+            'Dependencies': "org.keycloak.keycloak-services"
         )
     }
     exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
